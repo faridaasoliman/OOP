@@ -27,7 +27,7 @@ Responsibilities:
 	•	InternationalFlight:
 	•	Additional attributes (e.g., visa requirements, higher cost).
 
-Student 2: Flight Manager Class
+Mariam Sarhan
 
 Responsibilities:
 
@@ -53,7 +53,7 @@ Responsibilities:
 	•	generateDailyReport(): Summarizes bookings, cancellations, and available seats.
 	•	viewPopularRoutes(): Identifies frequently traveled routes.
 
-Student 3: User Interface and Integration
+Farida Soliman
 
 Responsibilities:
 
