@@ -97,3 +97,71 @@ public double calculateTicketPrice(String passengerType, boolean isFrequentFlyer
     return price;
 }
 }
+  import java.util.ArrayList;
+import java.util.List;
+
+public class Passenger {
+    private String passengerName;
+    private String passengerID;
+    private String flightNumber;
+    private int frequentFlyerPoints;
+    private List<String> bookingHistory;
+    
+    public Passenger(String passengerName, String passengerID, String flightNumber) {
+        this.passengerName = passengerName;
+        this.passengerID = passengerID;
+        this.flightNumber = flightNumber;
+        this.frequentFlyerPoints = 0;
+        this.bookingHistory = new ArrayList<>();
+    }
+
+    
+    public String getPassengerName() {
+        return passengerName;
+    }
+
+    public void setPassengerName(String passengerName) {
+        this.passengerName = passengerName;
+    }
+
+    public String getPassengerID() {
+        return passengerID;
+    }
+
+    public void setPassengerID(String passengerID) {
+        this.passengerID = passengerID;
+    }
+
+    public int getFrequentFlyerPoints() {
+        return frequentFlyerPoints;
+    }
+
+    public void setFrequentFlyerPoints(int frequentFlyerPoints) {
+        this.frequentFlyerPoints = frequentFlyerPoints;
+    }
+
+    public List<String> getBookingHistory() {
+        return bookingHistory;
+    }
+
+    public void setBookingHistory(List<String> bookingHistory) {
+        this.bookingHistory = bookingHistory;
+    }
+
+    
+    public void addBooking(String flight) {
+        bookingHistory.add(flight);
+    }
+
+    
+    public void updateFrequentFlyerPoints(int miles) {
+        frequentFlyerPoints += miles;
+    }
+
+    
+    public void viewBookingHistory() {
+        for (String flight : bookingHistory) {
+            System.out.println(flight);
+        }
+    }
+}
