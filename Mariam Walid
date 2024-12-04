@@ -165,3 +165,82 @@ public class Passenger {
         }
     }
 }
+ public class Flight {
+    private String flightNumber;
+    private String origin;
+    private String destination;
+    private double baseCost;
+
+    public Flight(String flightNumber, String origin, String destination, double baseCost) {
+        this.flightNumber = flightNumber;
+        this.origin = origin;
+        this.destination = destination;
+        this.baseCost = baseCost;
+    }
+
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public double getBaseCost() {
+        return baseCost;
+    }
+
+    public void displayDetails() {
+        System.out.println("Flight Number: " + flightNumber);
+       …
+ public class DomesticFlight extends Flight {
+    private boolean visaRequired;
+
+    public DomesticFlight(String flightNumber, String origin, String destination, double baseCost) {
+        super(flightNumber, origin, destination, baseCost);
+        this.visaRequired = false; // Visa is generally not required for domestic flights.
+    }
+
+    public boolean isVisaRequired() {
+        return visaRequired;
+    }
+
+    @Override
+    public void displayDetails() {
+        super.displayDetails();
+        System.out.println("Visa Required: " + (visaRequired ? "Yes" : "No"));
+        System.out.println("Cost (Domestic Discount): $" + (getBaseCost() * 0.9)); // 10% discount for domestic flights.
+    }
+}
+ public class InternationalFlight extends Flight {
+    private boolean visaRequired;
+    private String visaDetails;
+
+    public InternationalFlight(String flightNumber, String origin, String destination, double baseCost, boolean visaRequired, String visaDetails) {
+        super(flightNumber, origin, destination, baseCost);
+        this.visaRequired = visaRequired;
+        this.visaDetails = visaDetails;
+    }
+
+    public boolean isVisaRequired() {
+        return visaRequired;
+    }
+
+    public String getVisaDetails() {
+        return visaDetails;
+    }
+
+    @Override
+    public void displayDetails() {
+        super.displayDetails();
+        System.out.println("Visa Required: " + (visaRequired ? "Yes" : "No"));
+        if (visaRequired) {
+            System.out.println("Visa Details: " + visaDetails);
+        }
+        System.out.println("Cost (International): $" + (getBaseCost() * 1.2)); // 20% additional cost for international flights.
+    }
+}
