@@ -1,1 +1,74 @@
 
+
+import java.util.*;
+
+
+    public class FlightManager {
+        private List<Flight> flights;
+        private List<Passenger> passengers;
+
+        public FlightManager() {
+            this.flights = new ArrayList<>();
+            this.passengers = new ArrayList<>();
+        }
+
+        // addFlight()
+        public void addFlight(Flight flight) {
+            flights.add(flight);
+            System.out.println("Flight added: " + flight.getFlightNumber());
+        }
+
+        // viewFlights()
+        public void viewFlights() {
+            if (flights.isEmpty()) {
+                System.out.println("No flights available.");
+            } else {
+                for (Flight flight : flights) {
+                    flight.displayDetails();
+                }
+            }
+        }
+
+        // bookSeat()
+        public void bookSeat(String flightNumber, Passenger passenger) {
+            Flight flight = flightNumber;
+            if (flight != null) {
+                if (flight.getAvailableSeats() > 0) {
+                    flight.setAvailableSeats(flight.getAvailableSeats() - 1);
+                    passenger.addBooking(flightNumber); // Add flight to passenger's booking history
+                    System.out.println("Seat booked for " + passenger.getPassengerName() + " on flight " + flightNumber);
+                } else {
+                    System.out.println("No available seats on flight " + flightNumber);
+                }
+            } else {
+                System.out.println("Flight " + flightNumber + " not found.");
+            }
+        }
+
+        // cancelReservation()//
+        public void cancelReservation(String passengerID) {
+            Passenger passenger = passengerID;
+            if (passenger != null) {
+                String flightNumber = passenger.getBookingHistory().get(0);
+                Flight flight = findFlightByNumber(flightNumber);
+                if (flight != null) {
+                    flight.setAvailableSeats(flight.getAvailableSeats() + 1); //adddd available seats
+                    passenger.getBookingHistory().clear(); // Clear booking history
+                    System.out.println("Reservation canceled for " + passenger.getPassengerName() + " on flight " + flightNumber);
+                } else {
+                    System.out.println("Flight not found for cancellation.");
+                }
+            } else {
+                System.out.println("Passenger not found.");
+            }
+        }
+
+
+        // Add passenger
+        public void addPassenger(Passenger passenger) {
+            passengers.add(passenger);
+            System.out.println("Passenger added: " + passenger.getPassengerName());
+        }
+    }
+
+}
