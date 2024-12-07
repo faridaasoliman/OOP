@@ -1,9 +1,12 @@
 import java.util.ArrayList;
 import java.util.List; 
 import java.io.*;
+import java.util.Scanner;
+import java.util.Map; 
+import java.util.HashMap;
 
 // Main AirlineSystem class
-public class AirlineSystem {
+class AirlineSystem {
     private String flightNumber;
     private String departure;
     private String destination;
@@ -113,12 +116,14 @@ public class AirlineSystem {
 class Passenger {
     private String passengerName;
     private String passengerID;
+    private String flightNumber; 
     private List<String> bookingHistory;
     private int frequentFlyerPoints;
 
-    public Passenger(String passengerName, String passengerID) {
+    public Passenger(String passengerName, String passengerID, String flightNumber ) {
         this.passengerName = passengerName;
         this.passengerID = passengerID;
+        this.flightNumber = flightNumber;
         this.bookingHistory = new ArrayList<>();
         this.frequentFlyerPoints = 0;
     }
@@ -259,7 +264,37 @@ class FlightManager {
     public FlightManager() {
         flights = new ArrayList<>();
         passengers = new ArrayList<>();
+        
     }
+    
+    public Map<String, Integer> calculatePopularRoutes() {
+    Map<String, Integer> routePopularity = new HashMap<>();
+    for (Flight flight : flights) {
+        String route = flight.getOrigin() + " to " + flight.getDestination();
+        routePopularity.put(route, routePopularity.getOrDefault(route, 0) + 1);
+    }
+    return routePopularity;
+    }
+
+    
+    public Flight findFlightByNumber(String flightNumber) {
+    for (Flight flight : flights) {
+        if (flight.getFlightNumber().equals(flightNumber)) {
+            return flight;
+        }
+    }
+    return null;
+   }
+   
+   public Passenger findPassengerByID(String passengerID) {
+    for (Passenger passenger : passengers) {
+        if (passenger.getPassengerID().equals(passengerID)) {
+            return passenger;
+        }
+    }
+    return null;
+   }
+
 
     public void addFlight(Flight flight) {
         flights.add(flight);
@@ -306,10 +341,13 @@ class FlightManager {
 public class AirlineSystemApp {
     public static void main(String[] args) {
         FlightManager flightManager = new FlightManager();
-        flightManager.loadData(); // Load data from file
+        // No file handling, no need to load data here
 
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
+
+        // Welcome Message
+        System.out.println("Welcome to the Airline Reservation System!");
 
         while (!exit) {
             System.out.println("\n--- Airline System Menu ---");
@@ -320,7 +358,8 @@ public class AirlineSystemApp {
             System.out.println("5. Cancel Reservation");
             System.out.println("6. View Passenger Booking History");
             System.out.println("7. Generate Reports");
-            System.out.println("8. Exit");
+            System.out.println("8. View Flight Details");
+            System.out.println("9. Exit");
             System.out.print("Enter your choice: ");
 
             int choice;
@@ -332,18 +371,46 @@ public class AirlineSystemApp {
             }
 
             switch (choice) {
-                case 1 -> addFlightMenu(scanner, flightManager);
-                case 2 -> flightManager.viewFlights();
-                case 3 -> searchFlightMenu(scanner, flightManager);
-                case 4 -> bookSeatMenu(scanner, flightManager);
-                case 5 -> cancelReservationMenu(scanner, flightManager);
-                case 6 -> viewBookingHistoryMenu(scanner, flightManager);
-                case 7 -> generateReports(flightManager);
-                case 8 -> {
-                    flightManager.saveData();
+                case 1:  
+                    addFlightMenu(scanner, flightManager);
+                    break;
+                case 2: 
+                    flightManager.viewFlights();
+                    break;
+                case 3: 
+                    searchFlightMenu(scanner, flightManager);
+                    break;
+                case 4: 
+                    bookSeatMenu(scanner, flightManager);
+                    break;
+                case 5: 
+                    cancelReservationMenu(scanner, flightManager);
+                    break;
+                case 6: 
+                    viewBookingHistoryMenu(scanner, flightManager);
+                    break;
+                case 7: 
+                    generateReports(flightManager);
+                    break;
+                case 8: 
+                    viewFlightDetailsMenu(scanner, flightManager);
+                    break;
+                case 9: {
                     exit = true;
+                    System.out.println("Thank you for using the Airline Reservation System. Goodbye!");
+                    break;
                 }
-                default -> System.out.println("Invalid choice. Try again.");
+                default: 
+                    System.out.println("Invalid choice. Try again.");
+            }
+
+            if (!exit) {
+                System.out.print("\nWould you like to return to the main menu? (yes/no): ");
+                String answer = scanner.nextLine().trim().toLowerCase();
+                if (!answer.equals("yes")) {
+                    exit = true;
+                    System.out.println("Thank you for using the Airline Reservation System. Goodbye!");
+                }
             }
         }
     }
@@ -446,44 +513,16 @@ public class AirlineSystemApp {
             System.out.println(entry.getKey() + ": " + entry.getValue() + " bookings");
         }
     }
-}
 
-// File Handling: Save and Load Data
-class FileHandler {
-    private static final String FLIGHT_FILE = "flights.txt";
-    private static final String PASSENGER_FILE = "passengers.txt";
-
-    public static void saveFlights(List<Flight> flights) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FLIGHT_FILE))) {
-            oos.writeObject(flights);
-        } catch (IOException e) {
-            System.out.println("Error saving flights: " + e.getMessage());
-        }
-    }
-
-    public static List<Flight> loadFlights() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FLIGHT_FILE))) {
-            return (List<Flight>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new ArrayList<>();
-        }
-    }
-
-    public static void savePassengers(List<Passenger> passengers) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(PASSENGER_FILE))) {
-            oos.writeObject(passengers);
-        } catch (IOException e) {
-            System.out.println("Error saving passengers: " + e.getMessage());
-        }
-    }
-
-    public static List<Passenger> loadPassengers() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(PASSENGER_FILE))) {
-            return (List<Passenger>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new ArrayList<>();
+    // View Flight Details
+    private static void viewFlightDetailsMenu(Scanner scanner, FlightManager flightManager) {
+        System.out.print("Enter Flight Number: ");
+        String flightNumber = scanner.nextLine();
+        Flight flight = flightManager.findFlightByNumber(flightNumber);
+        if (flight != null) {
+            flight.displayDetails();
+        } else {
+            System.out.println("Flight not found.");
         }
     }
 }
-
-
