@@ -337,16 +337,14 @@ class FlightManager {
 
 
 
-// Main class to run the airline system
+// Main 
 public class AirlineSystemApp {
     public static void main(String[] args) {
         FlightManager flightManager = new FlightManager();
-        // No file handling, no need to load data here
 
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
 
-        // Welcome Message
         System.out.println("Welcome to the Airline Reservation System!");
 
         while (!exit) {
@@ -415,7 +413,7 @@ public class AirlineSystemApp {
         }
     }
 
-    // Add Flight Menu
+    //Flight Menu
     private static void addFlightMenu(Scanner scanner, FlightManager flightManager) {
         System.out.print("Enter Flight Number: ");
         String flightNumber = scanner.nextLine();
