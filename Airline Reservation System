@@ -97,7 +97,7 @@ class AirlineSystem {
 
     // Calculate ticket price based on passenger type and frequent flyer status
     public double calculateTicketPrice(String passengerType, boolean isFrequentFlyer) {
-        double price = ticketPrice;
+        double price = ticketPrice;                   //Use Aggregation or Composition (takhdo passengerType mn class Passenger)
         if ("child".equalsIgnoreCase(passengerType)) {
             price *= 0.5; // 50% discount for children
         } else if ("senior".equalsIgnoreCase(passengerType)) {
@@ -259,7 +259,7 @@ class InternationalFlight extends Flight {
 // FlightManager class
 class FlightManager {
     private List<Flight> flights;
-    private List<Passenger> passengers;
+    private List<Passenger> passenger;
 
     public FlightManager() {
         flights = new ArrayList<>();
