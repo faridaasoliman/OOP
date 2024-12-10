@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.Scanner;
 import java.util.Map; 
 import java.util.HashMap;
-
 // Main AirlineSystem class
 class AirlineSystem {
     private String flightNumber;
@@ -15,7 +14,6 @@ class AirlineSystem {
     private int availableSeats;
     private double ticketPrice;
     private String flightType; // economy, business, first class
-
     // Constructor
     public AirlineSystem(String flightNumber, String departure, String destination,
                          String arrivalTime, String departureTime, int availableSeats,
@@ -29,89 +27,69 @@ class AirlineSystem {
         this.ticketPrice = ticketPrice;
         this.flightType = flightType;
     }
-
     // Getters and setters
     public String getFlightNumber() {
         return flightNumber;
     }
-
     public void setFlightNumber(String flightNumber) {
         this.flightNumber = flightNumber;
     }
-
     public String getDeparture() {
         return departure;
     }
-
     public void setDeparture(String departure) {
         this.departure = departure;
     }
-
     public String getDestination() {
         return destination;
     }
-
     public void setDestination(String destination) {
         this.destination = destination;
     }
-
     public String getArrivalTime() {
         return arrivalTime;
     }
-
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
-
     public String getDepartureTime() {
         return departureTime;
     }
-
     public void setDepartureTime(String departureTime) {
         this.departureTime = departureTime;
     }
-
     public int getAvailableSeats() {
         return availableSeats;
     }
-
     public void setAvailableSeats(int availableSeats) {
         this.availableSeats = availableSeats;
     }
-
     public double getTicketPrice() {
         return ticketPrice;
     }
-
     public void setTicketPrice(double ticketPrice) {
         this.ticketPrice = ticketPrice;
     }
-
     public String getFlightType() {
         return flightType;
     }
-
     public void setFlightType(String flightType) {
         this.flightType = flightType;
     }
-
     // Calculate ticket price based on passenger type and frequent flyer status
     public double calculateTicketPrice(String passengerType, boolean isFrequentFlyer) {
-        double price = ticketPrice;                   //Use Aggregation or Composition (takhdo passengerType mn class Passenger)
+        double price = ticketPrice;
         if ("child".equalsIgnoreCase(passengerType)) {
             price *= 0.5; // 50% discount for children
         } else if ("senior".equalsIgnoreCase(passengerType)) {
             price *= 0.7; // 30% discount for seniors
         }
-
         if (isFrequentFlyer) {
             price *= 0.9; // 10% discount for frequent flyers
         }
-
         return price;
     }
 }
-
 // Passenger class
 class Passenger {
     private String passengerName;
@@ -119,7 +97,6 @@ class Passenger {
     private String flightNumber; 
     private List<String> bookingHistory;
     private int frequentFlyerPoints;
-
     public Passenger(String passengerName, String passengerID, String flightNumber ) {
         this.passengerName = passengerName;
         this.passengerID = passengerID;
@@ -127,76 +104,60 @@ class Passenger {
         this.bookingHistory = new ArrayList<>();
         this.frequentFlyerPoints = 0;
     }
-
     public String getPassengerName() {
         return passengerName;
     }
-
     public void setPassengerName(String passengerName) {
         this.passengerName = passengerName;
     }
-
     public String getPassengerID() {
         return passengerID;
     }
-
     public void setPassengerID(String passengerID) {
         this.passengerID = passengerID;
     }
-
     public int getFrequentFlyerPoints() {
         return frequentFlyerPoints;
     }
-
     public void updateFrequentFlyerPoints(int miles) {
         this.frequentFlyerPoints += miles;
     }
-
     public List<String> getBookingHistory() {
         return bookingHistory;
     }
-
     public void addBooking(String flightNumber) {
         bookingHistory.add(flightNumber);
     }
-
     public void viewBookingHistory() {
         for (String flight : bookingHistory) {
             System.out.println(flight);
         }
     }
 }
-
 // Base Flight class
 class Flight {
     private String flightNumber;
     private String origin;
     private String destination;
     private double baseCost;
-
     public Flight(String flightNumber, String origin, String destination, double baseCost) {
         this.flightNumber = flightNumber;
         this.origin = origin;
         this.destination = destination;
         this.baseCost = baseCost;
     }
-
     public String getFlightNumber() {
         return flightNumber;
     }
-
     public String getOrigin() {
         return origin;
     }
-
     public String getDestination() {
         return destination;
     }
-
     public double getBaseCost() {
         return baseCost;
     }
-
     public void displayDetails() {
         System.out.println("Flight Number: " + flightNumber);
         System.out.println("Origin: " + origin);
@@ -204,20 +165,16 @@ class Flight {
         System.out.println("Base Cost: $" + baseCost);
     }
 }
-
 // DomesticFlight class inheriting from Flight
 class DomesticFlight extends Flight {
     private boolean visaRequired;
-
     public DomesticFlight(String flightNumber, String origin, String destination, double baseCost) {
         super(flightNumber, origin, destination, baseCost);
         this.visaRequired = false; // Visa is generally not required for domestic flights.
     }
-
     public boolean isVisaRequired() {
         return visaRequired;
     }
-
     @Override
     public void displayDetails() {
         super.displayDetails();
@@ -225,26 +182,21 @@ class DomesticFlight extends Flight {
         System.out.println("Cost (Domestic Discount): $" + (getBaseCost() * 0.9)); // 10% discount
     }
 }
-
 // InternationalFlight class inheriting from Flight
 class InternationalFlight extends Flight {
     private boolean visaRequired;
     private String visaDetails;
-
     public InternationalFlight(String flightNumber, String origin, String destination, double baseCost, boolean visaRequired, String visaDetails) {
         super(flightNumber, origin, destination, baseCost);
         this.visaRequired = visaRequired;
         this.visaDetails = visaDetails;
     }
-
     public boolean isVisaRequired() {
         return visaRequired;
     }
-
     public String getVisaDetails() {
         return visaDetails;
     }
-
     @Override
     public void displayDetails() {
         super.displayDetails();
@@ -255,12 +207,10 @@ class InternationalFlight extends Flight {
         System.out.println("Cost (International): $" + (getBaseCost() * 1.2)); // 20% additional cost
     }
 }
-
 // FlightManager class
 class FlightManager {
     private List<Flight> flights;
-    private List<Passenger> passenger;
-
+    private List<Passenger> passengers;
     public FlightManager() {
         flights = new ArrayList<>();
         passengers = new ArrayList<>();
@@ -275,7 +225,6 @@ class FlightManager {
     }
     return routePopularity;
     }
-
     
     public Flight findFlightByNumber(String flightNumber) {
     for (Flight flight : flights) {
@@ -294,19 +243,15 @@ class FlightManager {
     }
     return null;
    }
-
-
     public void addFlight(Flight flight) {
         flights.add(flight);
         System.out.println("Flight added: " + flight.getFlightNumber());
     }
-
     public void viewFlights() {
         for (Flight flight : flights) {
             flight.displayDetails();
         }
     }
-
     public void bookSeat(String flightNumber, Passenger passenger) {
         for (Flight flight : flights) {
             if (flight.getFlightNumber().equals(flightNumber)) {
@@ -317,7 +262,6 @@ class FlightManager {
         }
         System.out.println("Flight " + flightNumber + " not found.");
     }
-
     public void cancelReservation(String passengerID) {
         for (Passenger passenger : passengers) {
             if (passenger.getPassengerID().equals(passengerID)) {
@@ -328,25 +272,20 @@ class FlightManager {
         }
         System.out.println("Passenger not found.");
     }
-
     public void addPassenger(Passenger passenger) {
         passengers.add(passenger);
         System.out.println("Passenger added: " + passenger.getPassengerName());
     }
 } 
-
-
-
-// Main 
+// Main class to run the airline system
 public class AirlineSystemApp {
     public static void main(String[] args) {
         FlightManager flightManager = new FlightManager();
-
+        // No file handling, no need to load data here
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
-
+        // Welcome Message
         System.out.println("Welcome to the Airline Reservation System!");
-
         while (!exit) {
             System.out.println("\n--- Airline System Menu ---");
             System.out.println("1. Add Flight");
@@ -359,7 +298,6 @@ public class AirlineSystemApp {
             System.out.println("8. View Flight Details");
             System.out.println("9. Exit");
             System.out.print("Enter your choice: ");
-
             int choice;
             try {
                 choice = Integer.parseInt(scanner.nextLine());
@@ -367,7 +305,6 @@ public class AirlineSystemApp {
                 System.out.println("Invalid choice. Please enter a number.");
                 continue;
             }
-
             switch (choice) {
                 case 1:  
                     addFlightMenu(scanner, flightManager);
@@ -401,7 +338,6 @@ public class AirlineSystemApp {
                 default: 
                     System.out.println("Invalid choice. Try again.");
             }
-
             if (!exit) {
                 System.out.print("\nWould you like to return to the main menu? (yes/no): ");
                 String answer = scanner.nextLine().trim().toLowerCase();
@@ -412,18 +348,14 @@ public class AirlineSystemApp {
             }
         }
     }
-
-    //Flight Menu
+    // Add Flight Menu
     private static void addFlightMenu(Scanner scanner, FlightManager flightManager) {
         System.out.print("Enter Flight Number: ");
         String flightNumber = scanner.nextLine();
-
         System.out.print("Enter Origin: ");
         String origin = scanner.nextLine();
-
         System.out.print("Enter Destination: ");
         String destination = scanner.nextLine();
-
         System.out.print("Enter Base Cost: ");
         double baseCost;
         try {
@@ -432,23 +364,18 @@ public class AirlineSystemApp {
             System.out.println("Invalid cost. Flight not added.");
             return;
         }
-
         System.out.print("Is this an international flight? (yes/no): ");
         String international = scanner.nextLine().trim().toLowerCase();
-
         if (international.equals("yes")) {
             System.out.print("Is a visa required? (yes/no): ");
             boolean visaRequired = scanner.nextLine().trim().equalsIgnoreCase("yes");
-
             System.out.print("Enter Visa Details: ");
             String visaDetails = scanner.nextLine();
-
             flightManager.addFlight(new InternationalFlight(flightNumber, origin, destination, baseCost, visaRequired, visaDetails));
         } else {
             flightManager.addFlight(new DomesticFlight(flightNumber, origin, destination, baseCost));
         }
     }
-
     // Search Flight Menu
     private static void searchFlightMenu(Scanner scanner, FlightManager flightManager) {
         System.out.print("Enter Flight Number: ");
@@ -460,34 +387,27 @@ public class AirlineSystemApp {
             System.out.println("Flight not found.");
         }
     }
-
     // Book Seat Menu
     private static void bookSeatMenu(Scanner scanner, FlightManager flightManager) {
         System.out.print("Enter Flight Number: ");
         String flightNumber = scanner.nextLine();
-
         System.out.print("Enter Passenger Name: ");
         String passengerName = scanner.nextLine();
-
         System.out.print("Enter Passenger ID: ");
         String passengerID = scanner.nextLine();
-
         Passenger passenger = flightManager.findPassengerByID(passengerID);
         if (passenger == null) {
             passenger = new Passenger(passengerName, passengerID, flightNumber);
             flightManager.addPassenger(passenger);
         }
-
         flightManager.bookSeat(flightNumber, passenger);
     }
-
     // Cancel Reservation Menu
     private static void cancelReservationMenu(Scanner scanner, FlightManager flightManager) {
         System.out.print("Enter Passenger ID: ");
         String passengerID = scanner.nextLine();
         flightManager.cancelReservation(passengerID);
     }
-
     // View Booking History Menu
     private static void viewBookingHistoryMenu(Scanner scanner, FlightManager flightManager) {
         System.out.print("Enter Passenger ID: ");
@@ -499,19 +419,16 @@ public class AirlineSystemApp {
             System.out.println("Passenger not found.");
         }
     }
-
     // Generate Reports
     private static void generateReports(FlightManager flightManager) {
         System.out.println("--- Daily Report ---");
         flightManager.viewFlights();
-
         System.out.println("--- Popular Routes ---");
         Map<String, Integer> routePopularity = flightManager.calculatePopularRoutes();
         for (Map.Entry<String, Integer> entry : routePopularity.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue() + " bookings");
         }
     }
-
     // View Flight Details
     private static void viewFlightDetailsMenu(Scanner scanner, FlightManager flightManager) {
         System.out.print("Enter Flight Number: ");
@@ -524,4 +441,3 @@ public class AirlineSystemApp {
         }
     }
 }
-
